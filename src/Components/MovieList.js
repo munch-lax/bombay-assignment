@@ -1,22 +1,58 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { fetchMovies } from "../actions";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import {connect} from 'react-redux'
+import SimpleSlider from './Slider';
 
 
-function MovieList() {
-    const dispatch = useDispatch()
-
-    useEffect(()=>{
-        dispatch(fetchMovies())
-    },[])
 
 
-    return (
-        <div>
-            <h1>This is home Page</h1>
-        </div>
-    )
+ class MovieList extends Component {
+    
+    componentDidMount(){
+        let keyword=this.props.history.location.search
+        console.log(keyword)
+        this.props.fetchMovies(keyword)
+    }
+
+    componentDidUpdate(){
+        let keyword=this.props.history.location.search
+        console.log(keyword)
+        this.props.fetchMovies(keyword)
+    }
+    
+    render() {
+        
+        
+        return (
+            <div>
+                {
+                    this.props.movies?
+
+                        this.props.movies.map(data=>{
+                            return(
+                                <SimpleSlider data={data}/>
+                            )
+                        })
+                    :<div></div>
+
+                }
+                
+                
+            </div>
+        )
+    }
 }
 
-export default MovieList
+const mapstatetoprops=(state)=>{
+    
+    if(state.data.length>1){
+        
+        return{movies:state.data}}
+    else{
+        
+        return null
+    }
+}
+
+
+export default connect(mapstatetoprops,{fetchMovies})(MovieList)

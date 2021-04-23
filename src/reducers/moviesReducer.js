@@ -1,10 +1,10 @@
-export default (state={data:[]},action)=>{
+export default (state={},action)=>{
     switch(action.type){
         case 'FETCH_MOVIE':
-            return {...state,data:action.payload}
+            return action.payload
         
         case 'FETCH_MOVIES':
-            return {...state,data:action.payload}
+            return action.payload
 
         default:
             return state
